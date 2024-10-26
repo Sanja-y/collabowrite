@@ -39,10 +39,10 @@ const frameworks = [
 ]
 
 interface SelectStoryModeProps {
-  setMode: () => string
+  setInput: React.Dispatch<React.SetStateAction<string>>
 }
 
-export  const SelectStoryMode: React.FC <SelectStoryModeProps> = ({setMode}) =>  {
+export  const SelectStoryMode: React.FC <SelectStoryModeProps> = ({setInput}) =>  {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
 
@@ -73,7 +73,7 @@ export  const SelectStoryMode: React.FC <SelectStoryModeProps> = ({setMode}) => 
                   value={framework.value}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? "" : currentValue)
-                    setMode(currentValue === value ? "" : currentValue)
+                    // setInput(currentValue === value ? "" : currentValue)
                     setOpen(false)
                   }}
                 >

@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 
 
 export default function GamePage() {
-    // const [mode, setMode] = useState("");
+    // const [input, setInput] = useState("");
     const router = useRouter()
     const [story, setStory] = useState("In the heart of the city, where shadows moved faster than bullets, a man with nothing left to lose stepped out of the darkness, his hand steady on the trigger ");
     const [addition, setAddition] = useState("");

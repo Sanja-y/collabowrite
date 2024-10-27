@@ -1,14 +1,16 @@
 'use client'
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from 'next/navigation'
-
-
+import { useAppSelector, useAppDispatch } from '@/lib/store';
+import { setName } from "@/lib/user-slice";
+import supabase from '@/lib/supabase'
 
 export default function GamePage() {
     // const [input, setInput] = useState("");
+    const mode = useAppSelector((state) => state.user.name);
+    const [story, setStory] = useState("");
     const router = useRouter()
-    const [story, setStory] = useState("In the heart of the city, where shadows moved faster than bullets, a man with nothing left to lose stepped out of the darkness, his hand steady on the trigger ");
     const [addition, setAddition] = useState("");
     const [noOfAdditions, setNoOfAdditions] = useState<number>(0);
     const LinkToEnd = () => {
@@ -17,10 +19,33 @@ export default function GamePage() {
         }
     }
 
+
+    useEffect(() => {
+       const fetchStory = async () => {
+        const {data , error } = await supabase
+        .from('collabowrite')
+        .select('game')
+
+        if(error) {
+            console.error(error)
+        }
+        if(data)
+        {
+            // setStory(data);
+            console.log(data[0])
+            const mode_from_DB =  data[0].game.filter(games => games.name === mode)
+            console.log( mode_from_DB, "mode_from_DB", mode, "mode")
+            setStory(mode_from_DB[0]?.initialPlot)
+            console.log(story)
+        }
+       }
+       fetchStory();
+    },[])
+
     const Header = () => {
         return (
             <div className="w-full flex justify-between py-2 px-2 mb-6">
-                <h1 className=" text-[1.5rem]">Collab-o-write</h1>
+                <h1 className=" text-[1.5rem]">Collab-o-write {`(${mode.substring(0,1)+mode.substring(1, mode.length)})`}</h1>
                 <div className="flex space-x-2 text-[0.9rem]">
                     <button>Login</button>
                     <button>Sign-up</button>

@@ -48,9 +48,13 @@ export default function StartPage() {
                     </div>
 
                 </div>
-                <div className="flex flex-col justify-center items-center">
+                <div className="flex flex-col justify-center items-centerFFD">
                     <Link
-                        href={mode !== `` ? `/gamepage/start/${mode}` : ''}
+                        href={
+                            // mode !== `` ? `/gamepage/start/${mode}` : ''
+                            '/gamepage/start/action'
+                    
+                    }
                         className="text-[18px] italic hover:opacity-60 transition-all duration-100"
                         // onClick={(e) => { handleClick(e) }}
                          >Start Game</Link>

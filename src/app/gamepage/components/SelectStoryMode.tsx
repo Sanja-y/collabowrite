@@ -19,6 +19,9 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+import { useAppDispatch } from '@/lib/store';
+import { setName } from '@/lib/user-slice';
+
 const frameworks = [
   {
     value: "action",
@@ -39,12 +42,20 @@ const frameworks = [
 ]
 
 interface SelectStoryModeProps {
+  input: string
   setInput: React.Dispatch<React.SetStateAction<string>>
 }
 
-export  const SelectStoryMode: React.FC <SelectStoryModeProps> = ({setInput}) =>  {
+export  const SelectStoryMode: React.FC <SelectStoryModeProps> = ({input, setInput}) =>  {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("")
+  const dispatch = useAppDispatch();
+
+
+  const handleSetName = () => {
+    dispatch(setName(input));
+    console.log(input)
+  };
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -72,9 +83,11 @@ export  const SelectStoryMode: React.FC <SelectStoryModeProps> = ({setInput}) =>
                   key={framework.value}
                   value={framework.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
-                    // setInput(currentValue === value ? "" : currentValue)
+                    setValue(currentValue === value ? "" : currentValue);
+                    setInput(currentValue === value ? "" : currentValue)
                     setOpen(false)
+                    handleSetName();
+
                   }}
                 >
                   <Check

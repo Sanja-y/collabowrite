@@ -1,13 +1,17 @@
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from '@reduxjs/toolkit';
+import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import userReducer from './user-slice'; // Example slice
 
-export const makeStore = () => {
-  return configureStore({
-    reducer: {}
-  })
-}
+// Create and configure the Redux store
+export const store = configureStore({
+  reducer: {
+    user: userReducer, // Add reducers here as you create slices
+  },
+});
 
-// Infer the type of makeStore
-export type AppStore = ReturnType<typeof makeStore>
-// Infer the `RootState` and `AppDispatch` types from the store itself
-export type RootState = ReturnType<AppStore['getState']>
-export type AppDispatch = AppStore['dispatch']
+// TypeScript setup for Redux state and dispatch
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
+
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;
